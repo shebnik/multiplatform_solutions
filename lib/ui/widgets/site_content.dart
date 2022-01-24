@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:multiplatform_solutions/models/page_info.dart';
 import 'package:multiplatform_solutions/ui/widgets/loading.dart';
-import 'package:multiplatform_solutions/ui/widgets/web_page_info.dart';
+import 'package:multiplatform_solutions/ui/widgets/web_page.dart';
 
 GlobalKey<_SiteContentState> siteContentStateKey = GlobalKey();
 
@@ -22,26 +22,20 @@ class _SiteContentState extends State<SiteContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      isAlwaysShown: true,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: loadPageFuture == null
-              ? Container()
-              : FutureBuilder<PageInfo?>(
-                  future: loadPageFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return WebPageInfo(pageInfo: snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return const LoadingIndicator();
-                  },
-                ),
-        ),
-      ),
+    if (loadPageFuture == null) return Container();
+    return FutureBuilder<PageInfo?>(
+      future: loadPageFuture,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return WebPageInfo(
+            pageInfo: snapshot.data!,
+            key: UniqueKey(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+        return const LoadingIndicator();
+      },
     );
   }
 
@@ -63,7 +57,7 @@ class _SiteContentState extends State<SiteContent> {
       isLoading = false;
 
       if (response.statusCode == 200) {
-        return PageInfo.fromResponse(response);
+        return PageInfo.fromResponse(response, url);
       } else {
         throw Exception('Failed to load page $url');
       }

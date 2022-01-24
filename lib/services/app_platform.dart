@@ -19,6 +19,9 @@ class AppPlatform {
   }
 
   static CustomPlatform get platform => _getPlatform();
+  
+  static bool get isMobile =>
+      platform == CustomPlatform.android || platform == CustomPlatform.ios;
 }
 
 enum CustomPlatform {

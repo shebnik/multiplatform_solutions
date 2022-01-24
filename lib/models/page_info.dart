@@ -5,19 +5,19 @@ import 'package:collection/collection.dart';
 class PageInfo {
   final String title;
   final String corsHeader;
-  final String htmlCode;
+  final String url;
 
   PageInfo({
     required this.title,
     required this.corsHeader,
-    required this.htmlCode,
+    required this.url,
   });
 
   @override
   String toString() =>
-      'PageInfo(title: $title, corsHeader: $corsHeader, htmlCode: $htmlCode)';
+      'PageInfo(title: $title, corsHeader: $corsHeader, url: $url)';
 
-  factory PageInfo.fromResponse(Response response) {
+  factory PageInfo.fromResponse(Response response, String url) {
     var document = parse(response.body);
     return PageInfo(
       title: document
@@ -30,7 +30,7 @@ class PageInfo {
                   (element) => element.key == 'access-control-allow-origin')
               ?.value ??
           'None',
-      htmlCode: response.body,
+      url: url,
     );
   }
 }
