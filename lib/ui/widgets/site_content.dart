@@ -68,8 +68,7 @@ class _SiteContentState extends State<SiteContent> {
         throw Exception('Failed to load page $url');
       }
     } catch (e) {
-      isLoading = false;https://www.formula1.com/
-      print(e);
+      isLoading = false;
       throw Exception('Failed to load page $url');
     }
   }

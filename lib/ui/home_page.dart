@@ -13,11 +13,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: SiteContent(key: globalKey),
-      ),
-      bottomNavigationBar: FooterWidget(
-        loadClick: (url) => globalKey.currentState?.loadClick(url),
+        child: Column(
+          children: [
+            Expanded(child: SiteContent(key: globalKey)),
+            FooterWidget(
+              loadClick: (url) => globalKey.currentState?.loadClick(url),
+            ),
+          ],
+        ),
       ),
     );
   }
