@@ -5,7 +5,7 @@ import 'package:multiplatform_solutions/models/page_info.dart';
 import 'package:multiplatform_solutions/ui/widgets/loading.dart';
 import 'package:multiplatform_solutions/ui/widgets/web_page_info.dart';
 
-GlobalKey<_SiteContentState> globalKey = GlobalKey();
+GlobalKey<_SiteContentState> siteContentStateKey = GlobalKey();
 
 class SiteContent extends StatefulWidget {
   const SiteContent({

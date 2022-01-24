@@ -17,9 +17,10 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(child: SiteContent(key: globalKey)),
+            Expanded(child: SiteContent(key: siteContentStateKey)),
             FooterWidget(
-              loadClick: (url) => globalKey.currentState?.loadClick(url),
+              loadClick: (url) =>
+                  siteContentStateKey.currentState?.loadClick(url),
             ),
           ],
         ),
