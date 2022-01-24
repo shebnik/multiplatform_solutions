@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:multiplatform_solutions/ui/home_page.dart';
+import 'package:multiplatform_solutions/ui/users_loader.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +13,10 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.cyan,
         ),
         debugShowCheckedModeBanner: false,
-        home: const HomePage(),
+        home: const UsersLoader(),
     );
   }
 }

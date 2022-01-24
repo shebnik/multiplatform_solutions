@@ -1,38 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:multiplatform_solutions/services/app_platform.dart';
-import 'package:multiplatform_solutions/ui/widgets/footer_widget.dart';
-import 'package:multiplatform_solutions/ui/widgets/site_content.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:multiplatform_solutions/models/user.dart';
+import 'package:multiplatform_solutions/ui/widgets/adaptive_widget.dart';
+import 'package:multiplatform_solutions/ui/widgets/user_tile.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final List<User> users;
+  const HomePage({
+    Key? key,
+    required this.users,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late final List<User> users;
+
   @override
   void initState() {
     super.initState();
-    if (AppPlatform.platform == CustomPlatform.android) {
-      WebView.platform = AndroidWebView();
-    }
+    users = widget.users;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(child: SiteContent(key: siteContentStateKey)),
-            FooterWidget(
-              loadClick: (url) =>
-                  siteContentStateKey.currentState?.loadClick(url),
+        child: AdaptiveWidget(
+          wide: wideUsersView(),
+          narrow: narrowUsersView(),
+        ),
+      ),
+    );
+  }
+
+  Widget wideUsersView() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            color: Theme.of(context).primaryColor,
+            child: const Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Text(
+                  'Adaptive App',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
             ),
-          ],
+          ),
+          flex: 1,
+        ),
+        Expanded(
+          child: Scrollbar(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
+              itemBuilder: (context, index) => SizedBox(
+                height: 50,
+                child: UserTile(
+                  user: users[index],
+                  isCompact: true,
+                ),
+              ),
+            ),
+          ),
+          flex: 5,
+        ),
+      ],
+    );
+  }
+
+  Widget narrowUsersView() {
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (context, index) => UserTile(
+          user: users[index],
         ),
       ),
     );
